@@ -2,7 +2,10 @@ package TestClasses;
 
 
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.objectweb.asm.ClassReader;
@@ -20,6 +23,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 public class MyFirstLinter {
 	
 	String[] fieldForAnalysisByThisProgram = new String[1];
+	static ArrayList<String> fileNames = new ArrayList<>();
 	
 	/**
 	 * Reads in a list of Java Classes and prints fun facts about them.
@@ -35,7 +39,8 @@ public class MyFirstLinter {
 	public static void main(String[] args) throws IOException {
 		// TODO: Learn how to create separate Run Configurations so you can run
 		// your code on different programs without changing the code each time.
-		for (String className : args) {
+		finder("src/tests", fileNames);
+		for (String className : fileNames) {
 			// The 3 steps read in a Java class:
 			// 1. ASM's ClassReader does the heavy lifting of parsing the compiled Java class.
 			ClassReader reader = new ClassReader(className);
@@ -143,5 +148,23 @@ public class MyFirstLinter {
 			
 			// TODO: how do I write a lint check to tell if this method has a bad name?
 		}
+	}
+	
+	public static File[] finder(String dirName, ArrayList<String> fileNames) {
+
+	    File dir = new File(dirName);
+
+	    return dir.listFiles(new FilenameFilter() {
+
+	        public boolean accept(File dir, String filename) {
+	            if(filename.endsWith(".java"))
+	            {
+	            	fileNames.add("tests." + filename.substring(0, filename.length()-5));
+	            	System.out.println(filename);
+	            }
+	            return filename.endsWith(".java");
+
+	        }
+	    });
 	}
 }
