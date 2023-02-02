@@ -1,6 +1,7 @@
 package example;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.objectweb.asm.ClassReader;
@@ -141,5 +142,9 @@ public class MyFirstLinter {
 			
 			// TODO: how do I write a lint check to tell if this method has a bad name?
 		}
+	}
+	
+	private static void printPatterns(ArrayList<ClassNode> classes) {
+		
 	}
 }
