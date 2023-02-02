@@ -1,5 +1,9 @@
 package domain;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+
 import org.junit.Test;
 
 public class LinterTestsV {
@@ -7,14 +11,16 @@ public class LinterTestsV {
 	//testing the two classes I'm planning for the logic, and getting the classes
 	ClassManager c;
 	
-	public void setupTests(String s, boolean good) {
+	public void setupTests(String s, boolean good) throws IOException {
 		//add all the classes here through the class manager, using the testname and 
 		//the result we want, aka whether the result should be fine or get something bad
+		c = new ClassManager();
+		c.getClasses();
 	}
 
 	//will have to create test classes for the linter to use
 	@Test
-	public void hollywoodPrincipleTests() {
+	public void hollywoodPrincipleTests() throws IOException {
 		setupTests("hollywood", true);
 		assertEquals("0 issues.\n", c.assessClasses());
 		setupTests("hollywood", false);
@@ -22,7 +28,7 @@ public class LinterTestsV {
 	}
 	
 	@Test
-	public void badDesignPatternsTest() {
+	public void badDesignPatternsTest() throws IOException {
 		setupTests("design", true);
 		assertEquals("0 issues.\n", c.assessClasses());
 		setupTests("design", false);
@@ -30,7 +36,7 @@ public class LinterTestsV {
 	}
 	
 	@Test
-	public void equalsHashcodeTest() {
+	public void equalsHashcodeTest() throws IOException {
 		setupTests("equals", true);
 		assertEquals("0 issues.\n", c.assessClasses());
 		setupTests("equals", false);
