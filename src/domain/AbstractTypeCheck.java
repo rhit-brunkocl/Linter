@@ -31,11 +31,15 @@ public class AbstractTypeCheck {
         }
 
         for (MethodNode method : this.node.methods) {
-            if ((method.access & Opcodes.ACC_ABSTRACT) == 0) {
+            if ((method.access & Opcodes.ACC_SYNTHETIC) == 1) {
                 abstractMethods.remove(method.name + method.desc);
             }
         }
 
-        System.out.println("Missing methods: " + abstractMethods);
+        if(abstractMethods.size() != 0) {
+        	System.out.println("Missing implementation of abstract methods from parent class" + this.abstractMethods);
+        }else {
+        	System.out.println("Class have impemented all abstract methods or there's no abstract classes");
+        }
     }
 }
