@@ -31,7 +31,7 @@ public class AbstractTypeCheck {
         }
 
         for (MethodNode method : this.node.methods) {
-            if ((method.access & Opcodes.ACC_SYNTHETIC) == 1) {
+            if ((method.access & Opcodes.ACC_SYNTHETIC) == 0) {
                 abstractMethods.remove(method.name + method.desc);
             }
         }
@@ -39,7 +39,7 @@ public class AbstractTypeCheck {
         if(abstractMethods.size() != 0) {
         	System.out.println("Missing implementation of abstract methods from parent class" + this.abstractMethods);
         }else {
-        	System.out.println("Class have impemented all abstract methods or there's no abstract classes");
+        	System.out.println("Class have impemented all abstract methods or it didn't extend a abstract class");
         }
     }
 }
