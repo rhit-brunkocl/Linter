@@ -17,18 +17,20 @@ public class LinterTestsV {
 		//add all the classes here through the class manager, using the testname and 
 		//the result we want, aka whether the result should be fine or get something bad
 		c = new ClassManager();
-		c.getClasses();
+		c.getClasses(null);
 	}
 
 	//will have to create test classes for the linter to use
 	@Test
-	public void hollywoodPrincipleTests() throws IOException {
-		setupTests("hollywood", true);
+	public void DIPTests() throws IOException {
+		setupTests("dip", true);
 		assertEquals("0 issues.\n", c.assessClasses());
-		setupTests("hollywood", false);
+		setupTests("dip", false);
 		assertEquals("1 issue in INSERTCLASSNAMEHERE: INSERTRESULTHERE", c.assessClasses());
 	}
 	
+	
+	//these should currently fail!
 	@Test
 	public void badDesignPatternsTest() throws IOException {
 		setupTests("design", true);

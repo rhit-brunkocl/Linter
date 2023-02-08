@@ -1,5 +1,6 @@
 package data;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,14 +21,10 @@ public class ClassManager {
 		classes = new ArrayList<ClassNode>();
 	}
 	
-	public void getClasses() throws IOException{
-		System.out.println("Input the paths to the classes you want to scan, and press q when you are done: ");
-		Scanner s = new Scanner(System.in);
-		String in = s.nextLine();
+	public void getClasses(ArrayList<File> files) throws IOException{
 		classes = new ArrayList<ClassNode>();
-		while(!in.equals("q")) {
-			InputStream input = new FileInputStream(in);
-			ClassReader reader = new ClassReader(input);
+		for(File file: files) {
+			ClassReader reader = new ClassReader(file.getName());
 			ClassNode classNode = new ClassNode();
 			reader.accept(classNode, ClassReader.EXPAND_FRAMES);
 			classes.add(classNode);
