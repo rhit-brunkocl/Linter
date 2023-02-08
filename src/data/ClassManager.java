@@ -1,4 +1,4 @@
-package domain;
+package data;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
+
+import domain.Linter;
 
 public class ClassManager {
 	Linter linter;

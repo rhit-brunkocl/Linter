@@ -1,10 +1,12 @@
-package domain;
+package tests;
 
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
 import org.junit.Test;
+
+import data.ClassManager;
 
 public class LinterTestsV {
 	//don't want to test the UI here, I will test that by hand, so I am just 
