@@ -2,6 +2,7 @@ package domain;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import java.io.IOException;
@@ -12,9 +13,17 @@ import static org.objectweb.asm.Type.getObjectType;
 public class BadNameCheck {
     private final ClassNode node;
     private final ArrayList<String> names = new ArrayList<>();
+    private final ArrayList<String> allowed = new ArrayList<>();
 
     public BadNameCheck(ClassNode node) {
         this.node = node;
+
+        //adding allowed words (2 letters)
+        this.allowed.add("on");
+        this.allowed.add("if");
+        this.allowed.add("in");
+        this.allowed.add("of");
+        this.allowed.add("up");
     }
 
     public void check() throws IOException {
@@ -22,23 +31,64 @@ public class BadNameCheck {
         ClassNode superClassNode = new ClassNode();
         superReader.accept(superClassNode, 0);
 
+        //check class names
         String className = getObjectType(node.name).getClassName();
         names.add(className);
+        //Class names should begin with Upper case letters
+        if(Character.isUpperCase(className.charAt(0))){
+            System.out.println("The method name " + className +
+                    " should begin with a lower case letter");
+        }
 
-
+        //check method names
         for(MethodNode method : superClassNode.methods) {
            String currentName = getObjectType(method.name).getClassName();
-           //check case
+            this.processSmallName(currentName);
 
         }
 
+        for(FieldNode field : superClassNode.fields){
+            String currentName = getObjectType(field.name).getClassName();
+           this.processSmallName(currentName);
+        }
+
+        //check name length and similarities
         for(String checkName: names){
+            //check length of name
             this.checkLength(checkName);
+            int index = names.indexOf(checkName);
+            for(int i = index + 1; i < names.size(); i++){
+                String comparedName = names.get(i);
+                double similarity = similarity(checkName.toLowerCase(), comparedName.toLowerCase());
+                if(similarity > 0.85){
+                    System.out.println("the words: " + checkName + " and " + comparedName +
+                            " is too similar, the similarity is " + similarity *100 + "%");
+                }
+            }
         }
     }
 
     private void checkLength(String name) {
-        char[] characters = ;
+        if(name.length() > 40){
+            System.out.println("The name: " + name + "is too long");
+        }
+        char[] chars = name.toCharArray();
+        int indexLast = 0;
+        for(int i = 0; i < chars.length; i++){
+            char c = chars[i];
+            if(Character.isUpperCase(c)){
+                int length = i - indexLast;
+                String current = name.substring(indexLast, i);
+                if (length == 2) {
+                    if(!this.allowed.contains(current.toLowerCase())){
+                        System.out.println(current + "is too short for abbreviation");
+                    }
+                }else if(length >= 15){
+                    System.out.println(current + "is too long for a word in the name");
+                }
+                indexLast = i;
+            }
+        }
         System.out.println();
     }
 
@@ -83,24 +133,13 @@ public class BadNameCheck {
         return costs[s2.length()];
     }
 
-}
+    private void processSmallName(String currentName){
+        if(Character.isUpperCase(currentName.charAt(0))){
+            System.out.println("The name " + currentName +
+                    " should begin with a lower case letter");
+        }
+        this.names.add(currentName);
+    }
 
-//public class MethodNode ... {
-//public int access;
-//public String name;
-//public String desc;
-//public String signature;
-//public List<String> exceptions;
-//public List<AnnotationNode> visibleAnnotations;
-//public List<AnnotationNode> invisibleAnnotations;
-//public List<Attribute> attrs;
-//public Object annotationDefault;
-//public List<AnnotationNode>[] visibleParameterAnnotations;
-//public List<AnnotationNode>[] invisibleParameterAnnotations;
-//public InsnList instructions;
-//public List<TryCatchBlockNode> tryCatchBlocks;
-//public List<LocalVariableNode> localVariables;
-//public int maxStack;
-//public int maxLocals;
-//        }
+}
 
