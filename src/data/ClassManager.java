@@ -24,6 +24,7 @@ public class ClassManager {
 		System.out.println("Input the paths to the classes you want to scan, and press q when you are done: ");
 		Scanner s = new Scanner(System.in);
 		String in = s.nextLine();
+		classes = new ArrayList<ClassNode>();
 		while(!in.equals("q")) {
 			InputStream input = new FileInputStream(in);
 			ClassReader reader = new ClassReader(input);
