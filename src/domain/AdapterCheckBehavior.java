@@ -14,11 +14,14 @@ public class AdapterCheckBehavior extends CheckBehavior {
 	private static boolean hasAdaptee = false;
 	private static boolean delegatesToAdapteeMethods = false;
 	public static String check(ClassNode node){
+		hasTarget = false;
+		hasAdaptee = false;
+		delegatesToAdapteeMethods = false;
 		try {
 			if (isAdapter(node)) {
-				System.out.println("This class uses Adaptor pattern!");
+				System.out.println("This class uses Adapter pattern!");
 			} else {
-				System.out.println("This class doesn't use Adaptor pattern!");
+				System.out.println("This class doesn't use Adapter pattern!");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
