@@ -13,7 +13,7 @@ public class main {
 	public static void main(String[] args) {
 		ClassManager c = new ClassManager();
 		
-		System.out.println("Input the paths to the classes you want to scan, and press q when you are done: ");
+		System.out.println("Put the files into the tests folder, and input the file paths: ");
 		Scanner s = new Scanner(System.in);
 		String in = s.nextLine();
 		ArrayList<File> files = new ArrayList<File>();

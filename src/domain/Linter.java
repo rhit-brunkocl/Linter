@@ -17,6 +17,10 @@ public class Linter {
 	public String doAllTests(ArrayList<ClassNode> classes) {
 		String out = "";
 		out += doOneClassCheck(new HashCheckBehavior(), classes);
+		out += doOneClassCheck(new SingletonCheckBehavior(), classes);
+		if(out.equals("")) {
+			return "0 issues found.\n";
+		}
 		return out;
 	}
 }
