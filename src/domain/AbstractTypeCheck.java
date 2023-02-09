@@ -8,19 +8,22 @@ import java.util.Set;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
-public class AbstractTypeCheck {
-	private ClassNode node;
-	private ArrayList<String> abstractMethods = new ArrayList<>();
+public class AbstractTypeCheck extends CheckBehavior {
+	private static ArrayList<String> abstractMethods = new ArrayList<>();
 
-	public AbstractTypeCheck(ClassNode node) {
-		this.node = node;
-	}
 	
-	public void check() throws IOException {
-		ClassReader superClassReader = new ClassReader(this.node.superName);
+	public static String check(ClassNode node) {
+		ClassReader superClassReader = null;
+		try {
+			superClassReader = new ClassReader(node.superName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         ClassNode superClassNode = new ClassNode();
         superClassReader.accept(superClassNode, 0);
 
@@ -30,16 +33,16 @@ public class AbstractTypeCheck {
             }
         }
 
-        for (MethodNode method : this.node.methods) {
+        for (MethodNode method : node.methods) {
             if ((method.access & Opcodes.ACC_SYNTHETIC) == 0) {
                 abstractMethods.remove(method.name + method.desc);
             }
         }
 
         if(abstractMethods.size() != 0) {
-        	System.out.println("Missing implementation of abstract methods from parent class" + this.abstractMethods);
+        	return String.format("Issue in %s: Missing implementation of abstract methods from parent class.\n", Type.getObjectType(node.name).getClassName());
         }else {
-        	System.out.println("Class have impemented all abstract methods or it didn't extend a abstract class");
+        	return "";
         }
     }
 }

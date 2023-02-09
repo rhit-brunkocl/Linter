@@ -24,12 +24,12 @@ public class ClassManager {
 	public void getClasses(ArrayList<File> files) throws IOException{
 		classes = new ArrayList<ClassNode>();
 		for(File file: files) {
-			String fileName;
+			String fileName = null;
 			if(file.getName().endsWith(".java"))
             {
             	fileName = "tests." + file.getName().substring(0, file.getName().length()-5);
             }
-			ClassReader reader = new ClassReader(file.getName());
+			ClassReader reader = new ClassReader(fileName);
 			ClassNode classNode = new ClassNode();
 			reader.accept(classNode, ClassReader.EXPAND_FRAMES);
 			classes.add(classNode);

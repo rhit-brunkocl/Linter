@@ -17,10 +17,12 @@ public class main {
 		Scanner s = new Scanner(System.in);
 		String in = s.nextLine();
 		ArrayList<File> files = new ArrayList<File>();
+		File dir = new File(in);
 		while(!in.equals("q")) {
 			Path path = Paths.get(in);
 			File f = path.toFile();
 			files.add(f);
+			in = s.nextLine();
 		}
 		try {
 			c.getClasses(files);
