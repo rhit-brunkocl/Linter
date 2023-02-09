@@ -40,6 +40,7 @@ public class AbstractTypeCheck extends CheckBehavior {
         }
 
         if(abstractMethods.size() != 0) {
+        	System.out.println("Issue in "+ node.name + ": Missing implementation of abstract methods from parent class.");
         	return String.format("Issue in %s: Missing implementation of abstract methods from parent class.\n", Type.getObjectType(node.name).getClassName());
         }else {
         	return "";
