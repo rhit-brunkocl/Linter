@@ -14,6 +14,8 @@ public class Linter {
 		return out;
 	}
 	
+	
+	
 	public String doAllTests(ArrayList<ClassNode> classes) {
 		String out = "";
 		out += doCursoryStyleCheck(new HashCheckBehavior(), classes);
