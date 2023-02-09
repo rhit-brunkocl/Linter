@@ -6,7 +6,7 @@ import java.util.List;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
-public class HashCheckBehavior implements StyleBehavior{
+public class HashCheckBehavior implements CheckBehavior{
 	public String check(ClassNode node) {
 		ArrayList<MethodNode> methods = (ArrayList<MethodNode>) node.methods;
 		boolean hashMethod = false;

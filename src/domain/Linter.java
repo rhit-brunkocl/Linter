@@ -6,7 +6,7 @@ import org.objectweb.asm.tree.ClassNode;
 
 public class Linter {
 	
-	public String doCursoryStyleCheck(StyleBehavior behavior, ArrayList<ClassNode> classes) {
+	public String doOneClassCheck(CheckBehavior behavior, ArrayList<ClassNode> classes) {
 		String out = "";
 		for(ClassNode node: classes) {
 			out += behavior.check(node);
@@ -14,11 +14,9 @@ public class Linter {
 		return out;
 	}
 	
-	
-	
 	public String doAllTests(ArrayList<ClassNode> classes) {
 		String out = "";
-		out += doCursoryStyleCheck(new HashCheckBehavior(), classes);
+		out += doOneClassCheck(new HashCheckBehavior(), classes);
 		return out;
 	}
 }
