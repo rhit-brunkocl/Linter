@@ -82,7 +82,6 @@ public class LinterTestsV {
 		setupTests("equals", true);
 		assertEquals("0 issues found.\n", l.doAllTests(classes));
 		setupTests("equals", false);
-		System.out.println(l.doAllTests(classes));
 		assertEquals("Issue in tests.HashCodeTest2: equals() method with no hashCode() method.\n"
 				+ "Issue in tests.HashCodeTest3: hashCode() method with no equals() method.\n", l.doAllTests(classes));
 	}
