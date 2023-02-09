@@ -2,6 +2,8 @@ package domain;
 
 import org.objectweb.asm.tree.ClassNode;
 
-public interface CheckBehavior {
-	public String check(ClassNode node);
+public abstract class CheckBehavior {
+	public static String check(ClassNode node){
+		return null;
+	}
 }

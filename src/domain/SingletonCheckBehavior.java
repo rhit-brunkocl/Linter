@@ -9,9 +9,9 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
-public class SingletonCheckBehavior implements CheckBehavior{
+public class SingletonCheckBehavior extends CheckBehavior{
 
-	public String check(ClassNode node) {
+	public static String check(ClassNode node) {
 		ArrayList<MethodNode> methods = (ArrayList<MethodNode>) node.methods;
 		boolean publicConstructors = false;
 		for(MethodNode method: methods) {
