@@ -28,5 +28,5 @@ public class BadNameTest {
     public void asAd(){
 
     }
-    public Test1 aba(HashCodeTest1 test){return  null;}
+    public CouplingTest2 aba(HashCodeTest1 test){return  null;}
 }

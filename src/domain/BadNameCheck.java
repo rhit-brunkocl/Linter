@@ -25,7 +25,9 @@ public class BadNameCheck extends CheckBehavior{
     public static String check(ClassNode node){
         //check class name
         String className = getObjectType(node.name).getClassName();
-        names.add(className);
+        if(!names.contains(className)){
+            names.add(className);
+        }
         //Class names should begin with Upper case letters
         if(Character.isUpperCase(className.charAt(0))){
             System.out.println("The method name " + className +
@@ -137,7 +139,8 @@ public class BadNameCheck extends CheckBehavior{
             System.out.println("The name " + currentName +
                     " should begin with a lower case letter");
         }
-        names.add(currentName);
+        if(!names.contains(currentName) && ! currentName.equals("<init>"))names.add(currentName);
+
     }
 
 

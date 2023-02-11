@@ -7,5 +7,10 @@ public class AbstractTypeTest2 extends AbstractTypeTest1 {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
+	@Override
+	void test2() {
+
+	}
+
 }
