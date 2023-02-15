@@ -17,13 +17,9 @@ import data.ClassManager;
 import domain.Linter;
 
 public class LinterTestsV {
-	//don't want to test the UI here, I will test that by hand, so I am just 
-	//testing the two classes I'm planning for the logic, and getting the classes
 	Linter l = new Linter();
 	ArrayList<ClassNode> classes;
 	public void setupTests(String s, boolean good) throws IOException {
-		//add all the classes here through the class manager, using the testname and 
-		//the result we want, aka whether the result should be fine or get something bad
 		classes = new ArrayList<ClassNode>();
 		if(s.equals("singleton")) {
 			if(good) {

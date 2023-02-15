@@ -1,3 +1,4 @@
+package tests;
 //package domain;
 //
 //import static org.junit.Assert.assertEquals;
