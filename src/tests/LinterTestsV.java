@@ -33,7 +33,8 @@ public class LinterTestsV {
 				addClass("tests.Test1");
 				addClass("tests.Test2");
 			}else {
-			    
+			    addClass("tests.DIPTest1");
+			    addClass("tests.DIPTest2");
 			}
 		}else {
 			if(good) {
@@ -60,7 +61,7 @@ public class LinterTestsV {
 		setupTests("dip", true);
 		assertEquals("0 issues found.\n", l.doAllTests(classes));
 		setupTests("dip", false);
-		assertEquals("insert error message here", l.doAllTests(classes));
+		assertEquals("Issue in tests.DIPTest2: method method2() calls method method() which is a DIP violation\n", l.doAllTests(classes));
 	}
 	
 	//these should pass
