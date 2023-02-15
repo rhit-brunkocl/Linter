@@ -35,7 +35,7 @@ public class SingletonCheckBehavior implements CheckBehavior{
 		for(FieldNode field: fields) {
 			if(Type.getObjectType(field.desc).getClassName().equals("L" + Type.getObjectType(node.name).getClassName()+ ";") ){
 				if((field.access & Opcodes.ACC_PUBLIC) == 0){
-					return String.format("Issue found in %s: Bad pattern, Singleton\n", Type.getObjectType(node.name).getClassName());
+					return String.format("Issue in %s: Bad pattern, Singleton\n", Type.getObjectType(node.name).getClassName());
 				}
 			}
 		}

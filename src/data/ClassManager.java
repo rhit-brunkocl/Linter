@@ -2,6 +2,7 @@ package data;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -21,14 +22,9 @@ public class ClassManager {
 		classes = new ArrayList<ClassNode>();
 	}
 	
-	public void getClasses(ArrayList<File> files) throws IOException{
+	public void getClasses(ArrayList<String> fileNames) throws IOException{
 		classes = new ArrayList<ClassNode>();
-		for(File file: files) {
-			String fileName = null;
-			if(file.getName().endsWith(".java"))
-            {
-            	fileName = "tests." + file.getName().substring(0, file.getName().length()-5);
-            }
+		for(String fileName: fileNames) {
 			ClassReader reader = new ClassReader(fileName);
 			ClassNode classNode = new ClassNode();
 			reader.accept(classNode, ClassReader.EXPAND_FRAMES);
@@ -39,4 +35,5 @@ public class ClassManager {
 	public String assessClasses() {
 		return linter.doAllTests(classes);
 	}
+	
 }

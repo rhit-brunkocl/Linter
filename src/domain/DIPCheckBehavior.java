@@ -39,19 +39,29 @@ public class DIPCheckBehavior implements CheckBehavior{
 							List<MethodNode> interfaceMethods = (List<MethodNode>) interfaceNode.methods;
 							for(MethodNode intMethod: interfaceMethods) {
 								if(methodInsnNode.name.equals(intMethod.name)) {
-									out += String.format("Issue in %s: method %s() calls method %s() which is a DIP violation\n", Type.getObjectType(classNode.name).getClassName(), method.name, intMethod.name);
+									out += String.format("Issue in %s: method %s() calls method %s() in implementation %s instead of in interface %s which is a DIP violation\n", 
+											Type.getObjectType(classNode.name).getClassName(),
+											method.name,
+											intMethod.name,
+											Type.getObjectType(methodClassNode.name).getClassName(),
+											Type.getObjectType(interfaceNode.name).getClassName());
 									break;
 								}
 							}
 						}
-						if(methodClassNode.superName != null) {
+						if(methodClassNode.superName != null && !methodClassNode.superName.equals("java/lang/Object")) {
 							ClassReader superReader = new ClassReader(methodClassNode.superName);
 							ClassNode interfaceNode = new ClassNode();
 							superReader.accept(interfaceNode, ClassReader.EXPAND_FRAMES);
 							List<MethodNode> superClassMethods = (List<MethodNode>) interfaceNode.methods;
 							for(MethodNode intMethod: superClassMethods) {
 								if(methodInsnNode.name.equals(intMethod.name) && !methodInsnNode.name.equals("<init>")) {
-									out += String.format("Issue in %s: method %s() calls method %s() which is a DIP violation\n", Type.getObjectType(classNode.name).getClassName(), method.name, intMethod.name);
+									out += String.format("Issue in %s: method %s() calls method %s() in implementation %s instead of in superclass %s which is a DIP violation\n", 
+											Type.getObjectType(classNode.name).getClassName(),
+											method.name,
+											intMethod.name,
+											Type.getObjectType(methodClassNode.name).getClassName(),
+											methodClassNode.superName);
 									break;
 								}
 							}

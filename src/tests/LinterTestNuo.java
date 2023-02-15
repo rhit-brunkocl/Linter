@@ -7,7 +7,7 @@ package tests;
 //
 //import java.io.IOException;
 //
-//public class LinterTestNuo {
+public class LinterTestNuo {
 //    ClassManager m;
 //
 //    public void setupTest (String s, boolean pass) throws IOException {
@@ -41,4 +41,4 @@ package tests;
 //
 //    }
 //
-//}
+}

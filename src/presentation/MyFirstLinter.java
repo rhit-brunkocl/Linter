@@ -1,4 +1,4 @@
-package TestClasses;
+package presentation;
 
 
 
@@ -41,6 +41,7 @@ public class MyFirstLinter {
 		// your code on different programs without changing the code each time.
 		finder("src/tests", fileNames);
 		for (String className : fileNames) {
+			System.out.println(className);
 			// The 3 steps read in a Java class:
 			// 1. ASM's ClassReader does the heavy lifting of parsing the compiled Java class.
 			ClassReader reader = new ClassReader(className);
@@ -53,11 +54,11 @@ public class MyFirstLinter {
 			reader.accept(classNode, ClassReader.EXPAND_FRAMES);
 
 			// Now we can navigate the classNode and look for things we are interested in.
-			printClass(classNode);
+			//printClass(classNode);
 
-			printFields(classNode);
+			//printFields(classNode);
 			
-			printMethods(classNode);
+			//printMethods(classNode);
 		}
 	}
 
@@ -159,7 +160,7 @@ public class MyFirstLinter {
 	        public boolean accept(File dir, String filename) {
 	            if(filename.endsWith(".java"))
 	            {
-	            	fileNames.add("tests." + filename.substring(0, filename.length()-5));
+	            	fileNames.add(dir.getName() + "." + filename.substring(0, filename.length()-5));
 	            	System.out.println(filename);
 	            }
 	            return filename.endsWith(".java");
