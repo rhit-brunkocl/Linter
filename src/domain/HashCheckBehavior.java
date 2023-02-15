@@ -7,8 +7,8 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
-public class HashCheckBehavior extends CheckBehavior{
-	public static String check(ClassNode node) {
+public class HashCheckBehavior implements CheckBehavior{
+	public String check(ClassNode node) {
 		ArrayList<MethodNode> methods = (ArrayList<MethodNode>) node.methods;
 		boolean hashMethod = false;
 		boolean equalsMethod = false;
