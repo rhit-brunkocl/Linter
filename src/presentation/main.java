@@ -30,14 +30,38 @@ public class main {
 	}
 	public static void main(String[] args) {
 		ClassManager c = new ClassManager();
-		
+		ArrayList<Boolean> checks = new ArrayList<Boolean>();
 		System.out.println("Input a folder path: ");
 		Scanner s = new Scanner(System.in);
 		String in = s.nextLine();
 		finder(in);
+		System.out.println("Check for hashCode and equals method issues? (y/n)");
+		in = s.nextLine();
+		if(in.charAt(0) == 'y') {
+			checks.add(true);
+		}else {
+			checks.add(false);
+		}
+		
+		System.out.println("Check for singletons? (y/n)");
+		in = s.nextLine();
+		if(in.charAt(0) == 'y') {
+			checks.add(true);
+		}else {
+			checks.add(false);
+		}
+		
+		System.out.println("Check for DIP violations? (y/n)");
+		in = s.nextLine();
+		if(in.charAt(0) == 'y') {
+			checks.add(true);
+		}else {
+			checks.add(false);
+		}
+		
 		try {
 			c.getClasses(fileNames);
-			System.out.println(c.assessClasses());
+			System.out.println(c.assessClasses(checks));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

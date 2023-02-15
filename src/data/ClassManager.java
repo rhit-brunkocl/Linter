@@ -11,7 +11,11 @@ import java.util.Scanner;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
 
+import domain.CheckBehavior;
+import domain.DIPCheckBehavior;
+import domain.HashCheckBehavior;
 import domain.Linter;
+import domain.SingletonCheckBehavior;
 
 public class ClassManager {
 	Linter linter;
@@ -32,8 +36,18 @@ public class ClassManager {
 		}
 	}
 	
-	public String assessClasses() {
-		return linter.doAllTests(classes);
+	public String assessClasses(ArrayList<Boolean> tests) {
+		ArrayList<CheckBehavior> checks = new ArrayList<CheckBehavior>();
+		if(tests.get(0)) {
+			checks.add(new HashCheckBehavior());
+		}
+		if(tests.get(1)) {
+			checks.add(new SingletonCheckBehavior());
+		}
+		if(tests.get(2)) {
+			checks.add(new DIPCheckBehavior());
+		}
+		return linter.doAllTests(classes, checks);
 	}
 	
 }

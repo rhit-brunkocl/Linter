@@ -14,11 +14,11 @@ public class Linter {
 		return out;
 	}
 	
-	public String doAllTests(ArrayList<ClassNode> classes) {
+	public String doAllTests(ArrayList<ClassNode> classes, ArrayList<CheckBehavior> checks) {
 		String out = "";
-		out += doOneClassCheck(new HashCheckBehavior(), classes);
-		out += doOneClassCheck(new SingletonCheckBehavior(), classes);
-		out += doOneClassCheck(new DIPCheckBehavior(), classes);
+		for(CheckBehavior c: checks) {
+			out += doOneClassCheck(c, classes);
+		}
 		if(out.equals("")) {
 			return "0 issues found.\n";
 		}
