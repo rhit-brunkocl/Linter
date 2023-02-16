@@ -17,69 +17,70 @@ import data.ClassManager;
 import domain.Linter;
 
 public class LinterTestsV {
-	Linter l = new Linter();
-	ArrayList<ClassNode> classes;
+	ClassManager c = new ClassManager();
+	ArrayList<String> classes;
+	ArrayList<Boolean> bools = new ArrayList<Boolean>();
 	public void setupTests(String s, boolean good) throws IOException {
-		classes = new ArrayList<ClassNode>();
+		for(int i = 0; i < 3; i++) {
+			bools.add(true);
+		}
+		for(int i = 0; i < 3; i++) {
+			bools.add(false);
+		}
+		classes = new ArrayList<String>();
 		if(s.equals("singleton")) {
 			if(good) {
-				addClass("tests.Test1");
-				addClass("tests.Test2");
+				classes.add("tests.Test1");
+				classes.add("tests.Test2");
 			}else {
-				addClass("tests.SingletonTest");
+				classes.add("tests.SingletonTest");
 			}
 		}else if(s.equals("dip")) {
 			if(good) {
-				addClass("tests.Test1");
-				addClass("tests.Test2");
+				classes.add("tests.Test1");
+				classes.add("tests.Test2");
 			}else {
-			    addClass("tests.DIPTest1");
-			    addClass("tests.DIPTest2");
+				classes.add("tests.DIPTest1");
+			    classes.add("tests.DIPTest2");
 			}
 		}else {
 			if(good) {
-				addClass("tests.Test1");
-				addClass("tests.Test2");
-				addClass("tests.HashCodeTest1");
+				classes.add("tests.Test1");
+				classes.add("tests.Test2");
+				classes.add("tests.HashCodeTest1");
 			}else {
-				addClass("tests.HashCodeTest2");
-				addClass("tests.HashCodeTest3");
+				classes.add("tests.HashCodeTest2");
+				classes.add("tests.HashCodeTest3");
 			}
 		}
-	}
-	
-	public void addClass(String s) throws IOException {
-		ClassReader reader = new ClassReader(s);
-		ClassNode classNode = new ClassNode();
-		reader.accept(classNode, ClassReader.EXPAND_FRAMES);
-		classes.add(classNode);
+		c.getClasses(classes);
 	}
 
 	//these should fail!
 	@Test
 	public void DIPTests() throws IOException {
 		setupTests("dip", true);
-		assertEquals("0 issues found.\n", l.doAllTests(classes));
+		assertEquals("0 issues found.\n", c.assessClasses(bools));
 		setupTests("dip", false);
-		assertEquals("Issue in tests.DIPTest2: method method2() calls method method() which is a DIP violation\n", l.doAllTests(classes));
+		assertEquals("Issue in tests.DIPTest2: method method2() calls method method() in implementation tests.DIPTest1 instead of in interface tests.DIPTest3 which is a DIP violation\n",c.assessClasses(bools));
 	}
 	
 	//these should pass
 	@Test
 	public void SingletonTest() throws IOException {
 		setupTests("singleton", true);
-		assertEquals("0 issues found.\n", l.doAllTests(classes));
+		assertEquals("0 issues found.\n", c.assessClasses(bools));
 		setupTests("singleton", false);
-		assertEquals("Issue found in tests.SingletonTest: Bad pattern, Singleton\n", l.doAllTests(classes));
+		assertEquals("Issue in tests.SingletonTest: Bad pattern, Singleton\n", c.assessClasses(bools));
 	}
 	
 	//these should pass
 	@Test
 	public void equalsHashcodeTest() throws IOException {
 		setupTests("equals", true);
-		assertEquals("0 issues found.\n", l.doAllTests(classes));
+		assertEquals("0 issues found.\n", c.assessClasses(bools));
 		setupTests("equals", false);
 		assertEquals("Issue in tests.HashCodeTest2: equals() method with no hashCode() method.\n"
-				+ "Issue in tests.HashCodeTest3: hashCode() method with no equals() method.\n", l.doAllTests(classes));
+				+ "Issue in tests.HashCodeTest3: hashCode() method with no equals() method.\n", c.assessClasses(bools));
 	}
 }

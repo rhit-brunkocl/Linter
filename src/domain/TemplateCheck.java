@@ -1,6 +1,5 @@
 package domain;
 
-import jdk.internal.org.objectweb.asm.commons.Method;
 import org.objectweb.asm.*;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
