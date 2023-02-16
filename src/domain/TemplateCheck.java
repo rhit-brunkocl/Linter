@@ -1,6 +1,5 @@
 package domain;
 
-import jdk.internal.org.objectweb.asm.commons.Method;
 import org.objectweb.asm.*;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 
 import static org.objectweb.asm.Type.getObjectType;
 
-public class TemplateCheck {
+public class TemplateCheck implements CheckBehavior {
 
 
     public TemplateCheck(){
@@ -18,7 +17,7 @@ public class TemplateCheck {
     }
 
     public String check(ClassNode node){
-        ClassReader reader = null;
+        ClassReader reader;
         try {
             reader = new ClassReader(getObjectType(node.name).getClassName());
         } catch (IOException e) {
@@ -42,13 +41,14 @@ public class TemplateCheck {
 
     public class TemplateMethodDetector extends ClassVisitor {
 //        private String templateMethodName;
-        private ArrayList<String> templateMethodNames;
-        private ArrayList<String> methodUsed;
+        private final ArrayList<String> templateMethodNames;
+        private final ArrayList<String> methodUsed;
 //        private boolean templateMethodUsed = false;
 
         public TemplateMethodDetector(ArrayList<String> parentNames) {
             super(Opcodes.ASM7);
             this.templateMethodNames = parentNames;
+            this.methodUsed = new ArrayList<String>();
         }
 
         @Override

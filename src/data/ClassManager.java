@@ -8,14 +8,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import domain.*;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
-
-import domain.CheckBehavior;
-import domain.DIPCheckBehavior;
-import domain.HashCheckBehavior;
-import domain.Linter;
-import domain.SingletonCheckBehavior;
 
 public class ClassManager {
 	Linter linter;
@@ -46,6 +41,15 @@ public class ClassManager {
 		}
 		if(tests.get(2)) {
 			checks.add(new DIPCheckBehavior());
+		}
+		if(tests.get(3)){
+			checks.add(new BadNameCheck());
+		}
+		if(tests.get(4)){
+			checks.add(new TightCouplingCheck());
+		}
+		if(tests.get(5)){
+			checks.add(new TemplateCheck());
 		}
 		return linter.doAllTests(classes, checks);
 	}

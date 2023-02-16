@@ -12,11 +12,11 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
-public class AbstractTypeCheck extends CheckBehavior {
+public class AbstractTypeCheck implements CheckBehavior {
 	private static ArrayList<String> abstractMethods = new ArrayList<>();
 
 	
-	public static String check(ClassNode node) {
+	public String check(ClassNode node) {
 		ClassReader superClassReader = null;
 		try {
 			superClassReader = new ClassReader(node.superName);

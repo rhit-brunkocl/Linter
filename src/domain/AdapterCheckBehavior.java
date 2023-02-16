@@ -9,11 +9,11 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
-public class AdapterCheckBehavior extends CheckBehavior {
+public class AdapterCheckBehavior implements CheckBehavior {
 	private static boolean hasTarget = false;
 	private static boolean hasAdaptee = false;
 	private static boolean delegatesToAdapteeMethods = false;
-	public static String check(ClassNode node){
+	public String check(ClassNode node){
 		hasTarget = false;
 		hasAdaptee = false;
 		delegatesToAdapteeMethods = false;
