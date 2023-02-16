@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LSPCheckBehavior implements CheckBehavior {
@@ -21,6 +22,8 @@ public class LSPCheckBehavior implements CheckBehavior {
     public String check (ClassNode classNode) {
     	String superName = classNode.superName;
     	while(superName != null) {
+    		if(superName.equals("java/lang/Object"))
+    			break;
     		ClassReader reader = null;
 			try {
 				reader = new ClassReader(superName);
@@ -42,7 +45,7 @@ public class LSPCheckBehavior implements CheckBehavior {
         			 String subReturn = subType.getReturnType().getClassName();
         			 Type superType = Type.getMethodType(similarMethod.desc);
         			 String superReturn = superType.getReturnType().getClassName();
-        			 if(subReturn.equals(superReturn)) {
+        			 if(!subReturn.equals(superReturn)) {
         				 out += String.format("Issue in %s: method %s() has a different return type with method %s from %s which is a LSP violation\n ", 
         						 Type.getObjectType(classNode.name).getClassName(),
 									method.name,
@@ -51,7 +54,15 @@ public class LSPCheckBehavior implements CheckBehavior {
         			 }
         			 Type subParams[] = subType.getArgumentTypes();
         			 Type superParams[] = superType.getArgumentTypes();
-        			 if(!subParams.equals(superParams)) {
+        			 String[] subArgs = new String[subParams.length];
+        			 String[] superArgs = new String [superParams.length];
+        			 for(int i = 0; i<subArgs.length; i++) {
+        				 subArgs[0] = subParams[0].getClassName();
+        			 }
+        			 for(int i = 0; i<superArgs.length; i++) {
+        				 superArgs[0] = superParams[0].getClassName();
+        			 }
+        			 if(!Arrays.equals(subArgs,superArgs)) {
         				 out += String.format("Issue in %s: method %s() has different argument types with method %s from %s which is a LSP violation\n ", 
         						 Type.getObjectType(classNode.name).getClassName(),
 									method.name,
