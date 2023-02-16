@@ -87,6 +87,30 @@ public class main {
 		}else {
 			checks.add(false);
 		}
+
+		System.out.println("Check for Bad Names? (y/n)");
+		in = s.nextLine();
+		if(in.charAt(0) == 'y') {
+			checks.add(true);
+		}else {
+			checks.add(false);
+		}
+
+		System.out.println("Check for Template Pattern? (y/n)");
+		in = s.nextLine();
+		if(in.charAt(0) == 'y') {
+			checks.add(true);
+		}else {
+			checks.add(false);
+		}
+
+		System.out.println("Check for Tight Coupling? (y/n)");
+		in = s.nextLine();
+		if(in.charAt(0) == 'y') {
+			checks.add(true);
+		}else {
+			checks.add(false);
+		}
 		
 		try {
 			c.getClasses(fileNames);

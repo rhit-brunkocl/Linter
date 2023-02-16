@@ -1,9 +1,12 @@
 package domain;
 
 
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
+
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -62,6 +65,11 @@ public class BadNameCheck implements CheckBehavior{
         }
 
         //to be implemented to match overall test case
+        return null;
+    }
+
+    @Override
+    public String check(ClassReader reader) {
         return null;
     }
 

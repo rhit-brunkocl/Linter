@@ -5,10 +5,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.stream.Collectors;
@@ -65,6 +62,11 @@ public class TightCouplingCheck implements CheckBehavior{
             System.out.println();
         }
 
+        return null;
+    }
+
+    @Override
+    public String check(ClassReader reader) {
         return null;
     }
 

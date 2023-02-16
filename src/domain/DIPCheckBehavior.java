@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +78,11 @@ public class DIPCheckBehavior implements CheckBehavior{
 		
 		return out;
 	}
-	
-	
-	
+
+	@Override
+	public String check(ClassReader reader) {
+		return null;
+	}
+
+
 }

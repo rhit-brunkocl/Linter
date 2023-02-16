@@ -8,6 +8,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -62,8 +63,13 @@ public class LSPCheckBehavior implements CheckBehavior {
         }
         return out;
     }
-    
-    public MethodNode checkInheritMethods(MethodNode toCheck, ClassNode superClass) {
+
+	@Override
+	public String check(ClassReader reader) {
+		return null;
+	}
+
+	public MethodNode checkInheritMethods(MethodNode toCheck, ClassNode superClass) {
     	for(MethodNode method : superClass.methods) {
     		if(method.name.equals(toCheck.name) && method.desc.equals(toCheck.desc)) {
     			return toCheck;

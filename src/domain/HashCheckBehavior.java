@@ -1,8 +1,10 @@
 package domain;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -31,5 +33,10 @@ public class HashCheckBehavior implements CheckBehavior{
 			return String.format("Issue in %s: equals() method with no hashCode() method.\n", Type.getObjectType(node.name).getClassName());
 		}
 		return "";
+	}
+
+	@Override
+	public String check(ClassReader reader) {
+		return null;
 	}
 }

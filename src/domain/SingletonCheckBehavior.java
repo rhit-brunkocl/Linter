@@ -1,8 +1,10 @@
 package domain;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
@@ -42,4 +44,8 @@ public class SingletonCheckBehavior implements CheckBehavior{
 		return "";
 	}
 
+	@Override
+	public String check(ClassReader reader) {
+		return null;
+	}
 }

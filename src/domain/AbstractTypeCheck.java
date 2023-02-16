@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -44,5 +45,10 @@ public class AbstractTypeCheck implements CheckBehavior {
         }else {
         	return "";
         }
+    }
+
+    @Override
+    public String check(ClassReader reader) {
+        return null;
     }
 }

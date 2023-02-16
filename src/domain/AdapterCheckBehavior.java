@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.objectweb.asm.ClassReader;
@@ -21,16 +22,21 @@ public class AdapterCheckBehavior implements CheckBehavior {
 		try {
 			if (isAdapter(node)) {
 				out = String.format("%s uses Adapter pattern!", Type.getObjectType(node.name).getClassName());
-			} 
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			out = String.format("Cannot perform Adapter check on class: %s", Type.getObjectType(node.name).getClassName()) ;
 		}
 		return out;
 	}
-	
+
+	@Override
+	public String check(ClassReader reader) {
+		return null;
+	}
+
 	public boolean isAdapter(ClassNode node) throws IOException {
-		
+
         if(node.interfaces.size() == 1) {
         	hasTarget = true;
         }

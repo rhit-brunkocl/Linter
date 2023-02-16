@@ -8,17 +8,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import domain.*;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
-
-import domain.AbstractTypeCheck;
-import domain.AdapterCheckBehavior;
-import domain.CheckBehavior;
-import domain.DIPCheckBehavior;
-import domain.HashCheckBehavior;
-import domain.LSPCheckBehavior;
-import domain.Linter;
-import domain.SingletonCheckBehavior;
 
 public class ClassManager {
 	Linter linter;
@@ -58,6 +50,15 @@ public class ClassManager {
 		}
 		if(tests.get(5)) {
 			checks.add(new LSPCheckBehavior());
+		}
+		if(tests.get(7)) {
+			checks.add(new BadNameCheck());
+		}
+		if(tests.get(8)) {
+			checks.add(new TemplateCheck());
+		}
+		if(tests.get(9)) {
+			checks.add(new TightCouplingCheck());
 		}
 		return linter.doAllTests(classes, checks);
 	}

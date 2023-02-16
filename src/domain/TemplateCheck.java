@@ -4,10 +4,7 @@ import org.objectweb.asm.*;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -20,6 +17,34 @@ public class TemplateCheck implements CheckBehavior {
 
     }
 
+
+    @Override
+    public String check(ClassReader reader){
+        ArrayList<Boolean> checkMarks = new ArrayList<>();
+        ArrayList<Integer> passes = new ArrayList<Integer>();
+        ArrayList<String> methodNames = new ArrayList<>();
+
+        //check abstract methods
+        passes.add(0,0);
+        passes.add(1,0);
+        passes.add(2,0);
+
+        ClassReader cr = reader;
+
+        ClassWriter cw = new ClassWriter(cr, 0);
+        AbstractVisitor visitor = new AbstractVisitor(cw, passes);
+        cr.accept(visitor, 0);
+
+        HookVisitor hookVisitor = new HookVisitor(cw, visitor.returnAbstracts(),passes);
+
+        for(int i : passes){
+            System.out.println(i);
+        }
+
+        return null;
+    }
+
+    @Override
     public String check(ClassNode node){
         String className = getObjectType(node.name).getClassName();
         ArrayList<Boolean> checkMarks = new ArrayList<>();
