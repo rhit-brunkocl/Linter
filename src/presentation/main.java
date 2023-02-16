@@ -1,12 +1,17 @@
 package presentation;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.tree.ClassNode;
 
 import data.ClassManager;
 
@@ -52,6 +57,30 @@ public class main {
 		}
 		
 		System.out.println("Check for DIP violations? (y/n)");
+		in = s.nextLine();
+		if(in.charAt(0) == 'y') {
+			checks.add(true);
+		}else {
+			checks.add(false);
+		}
+		
+		System.out.println("Check for Abstract Methods Implementation? (y/n)");
+		in = s.nextLine();
+		if(in.charAt(0) == 'y') {
+			checks.add(true);
+		}else {
+			checks.add(false);
+		}
+		
+		System.out.println("Check for Adapter Patter? (y/n)");
+		in = s.nextLine();
+		if(in.charAt(0) == 'y') {
+			checks.add(true);
+		}else {
+			checks.add(false);
+		}
+		
+		System.out.println("Check for LSP violations? (y/n)");
 		in = s.nextLine();
 		if(in.charAt(0) == 'y') {
 			checks.add(true);

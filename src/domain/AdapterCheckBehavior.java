@@ -10,27 +10,26 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
 public class AdapterCheckBehavior implements CheckBehavior {
-	private static boolean hasTarget = false;
-	private static boolean hasAdaptee = false;
-	private static boolean delegatesToAdapteeMethods = false;
+	private boolean hasTarget = false;
+	private boolean hasAdaptee = false;
+	private boolean delegatesToAdapteeMethods = false;
+	String out = "";
 	public String check(ClassNode node){
 		hasTarget = false;
 		hasAdaptee = false;
 		delegatesToAdapteeMethods = false;
 		try {
 			if (isAdapter(node)) {
-				System.out.println("This class uses Adapter pattern!");
-			} else {
-				System.out.println("This class doesn't use Adapter pattern!");
-			}
+				out = String.format("%s uses Adapter pattern!", Type.getObjectType(node.name).getClassName());
+			} 
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.err.println("Cannot perform Adapter check on class: " + Type.getObjectType(node.name).getClassName());
+			out = String.format("Cannot perform Adapter check on class: %s", Type.getObjectType(node.name).getClassName()) ;
 		}
-		return null;
+		return out;
 	}
 	
-	public static boolean isAdapter(ClassNode node) throws IOException {
+	public boolean isAdapter(ClassNode node) throws IOException {
 		
         if(node.interfaces.size() == 1) {
         	hasTarget = true;
