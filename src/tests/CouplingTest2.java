@@ -1,4 +1,4 @@
 package tests;
 
-public class CouplingTest2 {
+public class CouplingTest2 extends CouplingTest1 {
 }

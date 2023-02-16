@@ -16,11 +16,15 @@ import java.util.stream.Collectors;
 import static org.objectweb.asm.Type.*;
 
 public class TightCouplingCheck implements CheckBehavior{
-    private static final String packageName = "tests";
-    private static final String prefix = "L" + packageName + "/";
-    private static final int prelength = packageName.length() + 1;
+    private String packageName = "tests";
+    private String prefix = "L" + packageName + "/";
+    private int prelength = packageName.length() + 1;
 
     public String check(ClassNode node){
+        String internalName = node.name;
+        int lastSlashIndex = internalName.lastIndexOf('/');
+        this.packageName = (lastSlashIndex == -1) ? "" : internalName.substring(0, lastSlashIndex).replace('/', '.');
+
         String className = getObjectType(node.name).getClassName();
         System.out.println();
         System.out.println("For class " + className + " : " );
@@ -64,7 +68,7 @@ public class TightCouplingCheck implements CheckBehavior{
         return null;
     }
 
-    public static ArrayList<Class> findAllClassesUsingClassLoader(String packageName) {
+    public ArrayList<Class> findAllClassesUsingClassLoader(String packageName) {
         InputStream stream = ClassLoader.getSystemClassLoader()
                 .getResourceAsStream(packageName.replaceAll("[.]", "/"));
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
@@ -74,7 +78,7 @@ public class TightCouplingCheck implements CheckBehavior{
                 .collect(Collectors.toList());
     }
 
-    private static Class getClass(String className, String packageName) {
+    private Class getClass(String className, String packageName) {
         try {
             return Class.forName(packageName + "."
                     + className.substring(0, className.lastIndexOf('.')));
@@ -84,7 +88,7 @@ public class TightCouplingCheck implements CheckBehavior{
         return null;
     }
 
-    private static HashSet<String> countDesc(ClassNode node){
+    private HashSet<String> countDesc(ClassNode node){
         HashSet<String> used = new HashSet<>();
 
         String className = getObjectType(node.name).getClassName();
@@ -129,7 +133,7 @@ public class TightCouplingCheck implements CheckBehavior{
         return used;
     }
 
-    private static HashSet<String> countUsage(ClassNode node){
+    private HashSet<String> countUsage(ClassNode node){
         String className = getObjectType(node.name).getClassName();
 
         //or doubly linked list?
