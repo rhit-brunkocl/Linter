@@ -1,13 +1,13 @@
 package tests;
 
 public class SingletonTest {
-	private SingletonTest single;
+	private static SingletonTest single;
 	
 	private SingletonTest() {
 		single = new SingletonTest();
 	}
 	
-	public SingletonTest getSingleton() {
+	public static SingletonTest getSingleton() {
 		return single;
 	}
 }
