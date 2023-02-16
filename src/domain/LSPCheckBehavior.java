@@ -69,6 +69,13 @@ public class LSPCheckBehavior implements CheckBehavior {
 									similarMethod.name,
 									Type.getObjectType(superNode.name).getClassName());
         			 }
+        			 if(similarMethod.instructions.size() != 0 && method.instructions.size() == 0) {
+        				 out+= String.format("Issue in %s: empty method %s() and non-empty parent method %s from %s is not which is a LSP violation\n ", 
+        						 Type.getObjectType(classNode.name).getClassName(),
+									method.name,
+									similarMethod.name,
+									Type.getObjectType(superNode.name).getClassName());
+        			 }
                  }
         	}
         }
@@ -82,8 +89,8 @@ public class LSPCheckBehavior implements CheckBehavior {
 
 	public MethodNode checkInheritMethods(MethodNode toCheck, ClassNode superClass) {
     	for(MethodNode method : superClass.methods) {
-    		if(method.name.equals(toCheck.name) && method.desc.equals(toCheck.desc)) {
-    			return toCheck;
+    		if(method.name.equals(toCheck.name)) {
+    			return method;
     		}
     	}
     	return null;
