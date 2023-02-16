@@ -16,7 +16,7 @@ import org.objectweb.asm.tree.MethodNode;
 public class AbstractTypeCheck implements CheckBehavior {
 	private ArrayList<String> abstractMethods = new ArrayList<>();
 	
-	public String check(ClassNode node) {
+	public String check(String route, ClassReader readr, ClassNode node) {
 		ClassReader superClassReader = null;
 		try {
 			superClassReader = new ClassReader(node.superName);
@@ -47,8 +47,4 @@ public class AbstractTypeCheck implements CheckBehavior {
         }
     }
 
-    @Override
-    public String check(ClassReader reader) {
-        return null;
-    }
 }

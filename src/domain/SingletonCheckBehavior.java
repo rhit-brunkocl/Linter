@@ -13,7 +13,7 @@ import org.objectweb.asm.tree.MethodNode;
 
 public class SingletonCheckBehavior implements CheckBehavior{
 
-	public String check(ClassNode node) {
+	public String check(String route, ClassReader reader, ClassNode node) {
 		ArrayList<MethodNode> methods = (ArrayList<MethodNode>) node.methods;
 		boolean publicConstructors = false;
 		for(MethodNode method: methods) {
@@ -44,8 +44,4 @@ public class SingletonCheckBehavior implements CheckBehavior{
 		return "";
 	}
 
-	@Override
-	public String check(ClassReader reader) {
-		return null;
-	}
 }

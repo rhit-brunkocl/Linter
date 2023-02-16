@@ -19,7 +19,7 @@ public class TemplateCheck implements CheckBehavior {
 
 
     @Override
-    public String check(ClassReader reader){
+    public String check(String route, ClassReader reader, ClassNode node){
         ArrayList<Boolean> checkMarks = new ArrayList<>();
         ArrayList<Integer> passes = new ArrayList<Integer>();
         ArrayList<String> methodNames = new ArrayList<>();
@@ -44,33 +44,33 @@ public class TemplateCheck implements CheckBehavior {
         return null;
     }
 
-    @Override
-    public String check(ClassNode node){
-        String className = getObjectType(node.name).getClassName();
-        ArrayList<Boolean> checkMarks = new ArrayList<>();
-        ArrayList<Integer> passes = new ArrayList<Integer>();
-        ArrayList<String> methodNames = new ArrayList<>();
-        for(MethodNode method: node.methods){
-            methodNames.add(getObjectType(method.name).getClassName());
-        }
-
-        //check abstract methods
-        passes.add(0,0);
-        passes.add(1,0);
-        passes.add(2,0);
-
-
-        ClassReader cr = null;
-        try {
-            cr = new ClassReader(className);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        ClassWriter cw = new ClassWriter(cr, 0);
-        AbstractVisitor visitor = new AbstractVisitor(cw, passes);
-        cr.accept(visitor, 0);
-
-        HookVisitor hookVisitor = new HookVisitor(cw, visitor.returnAbstracts(),passes);
+//    @Override
+//    public String check(ClassNode node){
+//        String className = getObjectType(node.name).getClassName();
+//        ArrayList<Boolean> checkMarks = new ArrayList<>();
+//        ArrayList<Integer> passes = new ArrayList<Integer>();
+//        ArrayList<String> methodNames = new ArrayList<>();
+//        for(MethodNode method: node.methods){
+//            methodNames.add(getObjectType(method.name).getClassName());
+//        }
+//
+//        //check abstract methods
+//        passes.add(0,0);
+//        passes.add(1,0);
+//        passes.add(2,0);
+//
+//
+//        ClassReader cr = null;
+//        try {
+//            cr = new ClassReader(className);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        ClassWriter cw = new ClassWriter(cr, 0);
+//        AbstractVisitor visitor = new AbstractVisitor(cw, passes);
+//        cr.accept(visitor, 0);
+//
+//        HookVisitor hookVisitor = new HookVisitor(cw, visitor.returnAbstracts(),passes);
 
         //check childs
         //get the package name first
@@ -92,11 +92,11 @@ public class TemplateCheck implements CheckBehavior {
 //            }
 //        }
 
-        for(int i : passes){
-            System.out.println(i);
-        }
-       return null;
-    }
+//        for(int i : passes){
+//            System.out.println(i);
+//        }
+//       return null;
+//    }
 
     public class TemplateMethodDetector extends ClassVisitor {
 //        private String templateMethodName;

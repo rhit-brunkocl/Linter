@@ -15,18 +15,26 @@ import org.objectweb.asm.tree.ClassNode;
 public class ClassManager {
 	Linter linter;
 	ArrayList<ClassNode> classes;
+	ArrayList<String> routes;
+	ArrayList<ClassReader> readers;
 	
 	public ClassManager() {
 		linter = new Linter();
 		classes = new ArrayList<ClassNode>();
+		routes = new ArrayList<>();
+		readers = new ArrayList<>();
 	}
 	
 	public void getClasses(ArrayList<String> fileNames) throws IOException{
 		classes = new ArrayList<ClassNode>();
 		for(String fileName: fileNames) {
-			ClassReader reader = new ClassReader(fileName);
+			String filePath = fileName.replace(".", "/") + ".java";
+			FileInputStream is = new FileInputStream(filePath);
+			ClassReader reader = new ClassReader(is);
 			ClassNode classNode = new ClassNode();
 			reader.accept(classNode, ClassReader.EXPAND_FRAMES);
+			routes.add(fileName);
+			readers.add(reader);
 			classes.add(classNode);
 		}
 	}
@@ -51,16 +59,16 @@ public class ClassManager {
 		if(tests.get(5)) {
 			checks.add(new LSPCheckBehavior());
 		}
-		if(tests.get(7)) {
+		if(tests.get(6)) {
 			checks.add(new BadNameCheck());
 		}
-		if(tests.get(8)) {
+		if(tests.get(7)) {
 			checks.add(new TemplateCheck());
 		}
-		if(tests.get(9)) {
+		if(tests.get(8)) {
 			checks.add(new TightCouplingCheck());
 		}
-		return linter.doAllTests(classes, checks);
+		return linter.doAllTests(routes, readers, classes, checks);
 	}
 	
 }

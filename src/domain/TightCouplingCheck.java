@@ -17,7 +17,7 @@ public class TightCouplingCheck implements CheckBehavior{
     private String prefix = "L" + packageName + "/";
     private int prelength = packageName.length() + 1;
 
-    public String check(ClassNode node){
+    public String check(String route, ClassReader reader, ClassNode node){
         String internalName = node.name;
         int lastSlashIndex = internalName.lastIndexOf('/');
         this.packageName = (lastSlashIndex == -1) ? "" : internalName.substring(0, lastSlashIndex).replace('/', '.');
@@ -26,7 +26,7 @@ public class TightCouplingCheck implements CheckBehavior{
         System.out.println();
         System.out.println("For class " + className + " : " );
         HashSet<String> usedFor = countDesc(node);
-        HashSet<String> usedIn = countUsage(node);
+        HashSet<String> usedIn = countUsage(reader);
         //print classed used for methods ie input / output
         if(usedFor.size() > 3 ){
             System.out.println("Too many classes used for methods");
@@ -62,11 +62,6 @@ public class TightCouplingCheck implements CheckBehavior{
             System.out.println();
         }
 
-        return null;
-    }
-
-    @Override
-    public String check(ClassReader reader) {
         return null;
     }
 
@@ -135,13 +130,11 @@ public class TightCouplingCheck implements CheckBehavior{
         return used;
     }
 
-    private HashSet<String> countUsage(ClassNode node){
-        String className = getObjectType(node.name).getClassName();
+    private HashSet<String> countUsage(ClassReader reader){
 
         //or doubly linked list?
-        try {
             HashSet<String> used = new HashSet<>();
-            ClassReader cr = new ClassReader(className);
+            ClassReader cr = reader;
             ClassVisitor cv = new ClassVisitor(Opcodes.ASM7){
                 @Override
                 public MethodVisitor visitMethod(int access, String name, String desc,
@@ -169,9 +162,6 @@ public class TightCouplingCheck implements CheckBehavior{
                 }
             }
             return used;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
-    }
 
 }

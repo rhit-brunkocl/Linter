@@ -15,7 +15,7 @@ public class AdapterCheckBehavior implements CheckBehavior {
 	private boolean hasAdaptee = false;
 	private boolean delegatesToAdapteeMethods = false;
 	String out = "";
-	public String check(ClassNode node){
+	public String check(String route, ClassReader readr, ClassNode node){
 		hasTarget = false;
 		hasAdaptee = false;
 		delegatesToAdapteeMethods = false;
@@ -28,11 +28,6 @@ public class AdapterCheckBehavior implements CheckBehavior {
 			out = String.format("Cannot perform Adapter check on class: %s", Type.getObjectType(node.name).getClassName()) ;
 		}
 		return out;
-	}
-
-	@Override
-	public String check(ClassReader reader) {
-		return null;
 	}
 
 	public boolean isAdapter(ClassNode node) throws IOException {

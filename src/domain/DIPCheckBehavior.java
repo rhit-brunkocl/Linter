@@ -17,30 +17,31 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
 public class DIPCheckBehavior implements CheckBehavior{
-	public String check(ClassNode classNode) {
+	public String check(String route, ClassReader readr, ClassNode classNode) {
 		String out = "";
-		
+
 		List<MethodNode> methods = (List<MethodNode>) classNode.methods;
-		
-		for(MethodNode method: methods) {
+
+		for (MethodNode method : methods) {
 			AbstractInsnNode node = method.instructions.getFirst();
-			while(node != null) {
-				if(node.getType() == AbstractInsnNode.METHOD_INSN) {
+			while (node != null) {
+				if (node.getType() == AbstractInsnNode.METHOD_INSN) {
 					MethodInsnNode methodInsnNode = (MethodInsnNode) node;
 					String methodName = methodInsnNode.owner + "." + methodInsnNode.name;
 					ClassReader reader;
 					try {
+						System.out.println(methodInsnNode.owner);
 						reader = new ClassReader(methodInsnNode.owner);
 						ClassNode methodClassNode = new ClassNode();
 						reader.accept(methodClassNode, ClassReader.EXPAND_FRAMES);
-						for(String interfaceName: methodClassNode.interfaces) {
+						for (String interfaceName : methodClassNode.interfaces) {
 							ClassReader intReader = new ClassReader(interfaceName);
 							ClassNode interfaceNode = new ClassNode();
 							intReader.accept(interfaceNode, ClassReader.EXPAND_FRAMES);
 							List<MethodNode> interfaceMethods = (List<MethodNode>) interfaceNode.methods;
-							for(MethodNode intMethod: interfaceMethods) {
-								if(methodInsnNode.name.equals(intMethod.name)) {
-									out += String.format("Issue in %s: method %s() calls method %s() in implementation %s instead of in interface %s which is a DIP violation\n", 
+							for (MethodNode intMethod : interfaceMethods) {
+								if (methodInsnNode.name.equals(intMethod.name)) {
+									out += String.format("Issue in %s: method %s() calls method %s() in implementation %s instead of in interface %s which is a DIP violation\n",
 											Type.getObjectType(classNode.name).getClassName(),
 											method.name,
 											intMethod.name,
@@ -50,14 +51,14 @@ public class DIPCheckBehavior implements CheckBehavior{
 								}
 							}
 						}
-						if(methodClassNode.superName != null && !methodClassNode.superName.equals("java/lang/Object")) {
+						if (methodClassNode.superName != null && !methodClassNode.superName.equals("java/lang/Object")) {
 							ClassReader superReader = new ClassReader(methodClassNode.superName);
 							ClassNode interfaceNode = new ClassNode();
 							superReader.accept(interfaceNode, ClassReader.EXPAND_FRAMES);
 							List<MethodNode> superClassMethods = (List<MethodNode>) interfaceNode.methods;
-							for(MethodNode intMethod: superClassMethods) {
-								if(methodInsnNode.name.equals(intMethod.name) && !methodInsnNode.name.equals("<init>")) {
-									out += String.format("Issue in %s: method %s() calls method %s() in implementation %s instead of in superclass %s which is a DIP violation\n", 
+							for (MethodNode intMethod : superClassMethods) {
+								if (methodInsnNode.name.equals(intMethod.name) && !methodInsnNode.name.equals("<init>")) {
+									out += String.format("Issue in %s: method %s() calls method %s() in implementation %s instead of in superclass %s which is a DIP violation\n",
 											Type.getObjectType(classNode.name).getClassName(),
 											method.name,
 											intMethod.name,
@@ -75,14 +76,7 @@ public class DIPCheckBehavior implements CheckBehavior{
 				node = node.getNext();
 			}
 		}
-		
+
 		return out;
 	}
-
-	@Override
-	public String check(ClassReader reader) {
-		return null;
-	}
-
-
 }

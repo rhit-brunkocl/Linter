@@ -26,8 +26,9 @@ public class main {
 	        public boolean accept(File dir, String filename) {
 	            if(filename.endsWith(".java"))
 	            {
-	            	fileNames.add(dir.getName() + "." + filename.substring(0, filename.length()-5));
-	            }
+//	            	fileNames.add(dir.getName() + "." + filename.substring(0, filename.length()-5));
+					fileNames.add(dirName + "." + filename.substring(0, filename.length()-5));
+				}
 	            return filename.endsWith(".java");
 
 	        }

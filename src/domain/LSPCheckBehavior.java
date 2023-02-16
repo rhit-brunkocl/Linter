@@ -18,7 +18,9 @@ public class LSPCheckBehavior implements CheckBehavior {
 	String out = "";
 	private ArrayList<String> LSPViolations = new ArrayList<>();
 	private ArrayList<ClassNode> superClasses = new ArrayList<>();
-    public String check (ClassNode classNode) {
+    public String check (String route, ClassReader readr, ClassNode classNode) {
+		//need to get full path of superName and read it through fileInputStream
+		//to avoid
     	String superName = classNode.superName;
     	while(superName != null) {
     		ClassReader reader = null;
@@ -64,10 +66,6 @@ public class LSPCheckBehavior implements CheckBehavior {
         return out;
     }
 
-	@Override
-	public String check(ClassReader reader) {
-		return null;
-	}
 
 	public MethodNode checkInheritMethods(MethodNode toCheck, ClassNode superClass) {
     	for(MethodNode method : superClass.methods) {

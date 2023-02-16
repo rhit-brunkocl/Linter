@@ -10,7 +10,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
 public class HashCheckBehavior implements CheckBehavior{
-	public String check(ClassNode node) {
+	public String check(String route, ClassReader readr, ClassNode node) {
 		ArrayList<MethodNode> methods = (ArrayList<MethodNode>) node.methods;
 		boolean hashMethod = false;
 		boolean equalsMethod = false;
@@ -35,8 +35,4 @@ public class HashCheckBehavior implements CheckBehavior{
 		return "";
 	}
 
-	@Override
-	public String check(ClassReader reader) {
-		return null;
-	}
 }

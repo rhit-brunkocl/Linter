@@ -19,13 +19,11 @@ public class BadNameCheck implements CheckBehavior{
 
     public BadNameCheck() {
         //adding allowed words (2 letters)
-        for(String s : allowed){
-            System.out.println(s);
-        }
 
     }
 
-    public String check(ClassNode node){
+    public String check(String route, ClassReader readr, ClassNode node){
+        String out = "";
         //check class name
         String className = getObjectType(node.name).getClassName();
         if(!names.contains(className)){
@@ -33,33 +31,37 @@ public class BadNameCheck implements CheckBehavior{
         }
         //Class names should begin with Upper case letters
         if(Character.isUpperCase(className.charAt(0))){
-            System.out.println("The method name " + className +
-                    " should begin with a lower case letter");
+//            System.out.println("The method name " + className +
+//                    " should begin with a lower case letter");
+            out += "The method name " + className +
+                    " should begin with a lower case letter \n";
         }
 
         //check method names
         for(MethodNode method : node.methods) {
            String currentName = getObjectType(method.name).getClassName();
-            BadNameCheck.processSmallName(currentName);
+            out += BadNameCheck.processSmallName(currentName);
 
         }
 
         for(FieldNode field : node.fields){
             String currentName = getObjectType(field.name).getClassName();
-            BadNameCheck.processSmallName(currentName);
+            out += BadNameCheck.processSmallName(currentName);
         }
 
         //check name length and similarities
         for(String checkName: names){
             //check length of name
-            BadNameCheck.checkLength(checkName);
+            BadNameCheck.checkLength(checkName, out);
             int index = names.indexOf(checkName);
             for(int i = index + 1; i < names.size(); i++){
                 String comparedName = names.get(i);
                 double similarity = similarity(checkName.toLowerCase(), comparedName.toLowerCase());
                 if(similarity > 0.85){
-                    System.out.println("the words: " + checkName + " and " + comparedName +
-                            " is too similar, the similarity is " + similarity *100 + "%");
+//                    System.out.println("the words: " + checkName + " and " + comparedName +
+//                            " is too similar, the similarity is " + similarity *100 + "%");
+                    out += "the words: " + checkName + " and " + comparedName +
+                            " is too similar, the similarity is " + similarity *100 + "%" + "\n";
                 }
             }
         }
@@ -68,14 +70,10 @@ public class BadNameCheck implements CheckBehavior{
         return null;
     }
 
-    @Override
-    public String check(ClassReader reader) {
-        return null;
-    }
-
-    private static void checkLength(String name) {
+    private static void checkLength(String name, String out) {
         if(name.length() > 40){
-            System.out.println("The name: " + name + " is too long");
+//            System.out.println("The name: " + name + " is too long");
+           out += "The name: " + name + " is too long\n";
         }
         char[] chars = name.toCharArray();
         int indexLast = 0;
@@ -90,10 +88,12 @@ public class BadNameCheck implements CheckBehavior{
 
 //                if (length == 2 || (i == chars.length - 1 && length == 1 && Character.isLowerCase(c))) {
                     if(!allowed.contains(current.toLowerCase())){
-                        System.out.println(current + " in name " + name + " is too short for abbreviation");
+//                        System.out.println(current + " in name " + name + " is too short for abbreviation");
+                        out += current + " in name " + name + " is too short for abbreviation \n";
                     }
                 }else if(current.length()>= 15){
-                    System.out.println(current + " is too long for a word in the name");
+//                    System.out.println(current + " is too long for a word in the name");
+                    out += current + " is too long for a word in the name \n";
                 }
                 indexLast = i;
             }
@@ -142,13 +142,16 @@ public class BadNameCheck implements CheckBehavior{
         return costs[s2.length()];
     }
 
-    private static void processSmallName(String currentName){
+    private static String processSmallName(String currentName){
+        String result = "";
         if(Character.isUpperCase(currentName.charAt(0))){
-            System.out.println("The name " + currentName +
-                    " should begin with a lower case letter");
+//            System.out.println("The name " + currentName +
+//                    " should begin with a lower case letter");
+            result += "The name " + currentName +
+                    " should begin with a lower case letter\n";
         }
         if(!names.contains(currentName) && ! currentName.equals("<init>"))names.add(currentName);
-
+        return result;
     }
 
 
