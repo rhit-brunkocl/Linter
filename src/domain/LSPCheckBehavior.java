@@ -20,6 +20,7 @@ public class LSPCheckBehavior implements CheckBehavior {
 	private ArrayList<String> LSPViolations = new ArrayList<>();
 	private ArrayList<ClassNode> superClasses = new ArrayList<>();
     public String check (ClassNode classNode) {
+    	out = "";
     	String superName = classNode.superName;
     	while(superName != null) {
     		if(superName.equals("java/lang/Object"))
