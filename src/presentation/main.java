@@ -59,6 +59,30 @@ public class main {
 			checks.add(false);
 		}
 		
+		System.out.println("Check for Abstract Methods Implementation? (y/n)");
+		in = s.nextLine();
+		if(in.charAt(0) == 'y') {
+			checks.add(true);
+		}else {
+			checks.add(false);
+		}
+		
+		System.out.println("Check for Adapter Patter? (y/n)");
+		in = s.nextLine();
+		if(in.charAt(0) == 'y') {
+			checks.add(true);
+		}else {
+			checks.add(false);
+		}
+		
+		System.out.println("Check for LSP violations? (y/n)");
+		in = s.nextLine();
+		if(in.charAt(0) == 'y') {
+			checks.add(true);
+		}else {
+			checks.add(false);
+		}
+		
 		try {
 			c.getClasses(fileNames);
 			System.out.println(c.assessClasses(checks));

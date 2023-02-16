@@ -12,11 +12,10 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
-public class AbstractTypeCheck extends CheckBehavior {
-	private static ArrayList<String> abstractMethods = new ArrayList<>();
-
+public class AbstractTypeCheck implements CheckBehavior {
+	private ArrayList<String> abstractMethods = new ArrayList<>();
 	
-	public static String check(ClassNode node) {
+	public String check(ClassNode node) {
 		ClassReader superClassReader = null;
 		try {
 			superClassReader = new ClassReader(node.superName);
@@ -40,7 +39,7 @@ public class AbstractTypeCheck extends CheckBehavior {
         }
 
         if(abstractMethods.size() != 0) {
-        	System.out.println("Issue in "+ node.name + ": Missing implementation of abstract methods from parent class.");
+        	//System.out.println("Issue in "+ node.name + ": Missing implementation of abstract methods from parent class.");
         	return String.format("Issue in %s: Missing implementation of abstract methods from parent class.\n", Type.getObjectType(node.name).getClassName());
         }else {
         	return "";
