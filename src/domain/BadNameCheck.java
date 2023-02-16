@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import static org.objectweb.asm.Type.getObjectType;
 
-public class BadNameCheck extends CheckBehavior{
+public class BadNameCheck implements CheckBehavior{
     private static final ArrayList<String> names = new ArrayList<>();
     private static final ArrayList<String> allowed = new ArrayList<>(Arrays.asList("in", "on", "if",
             "of", "up", "is", "or", "as"));
@@ -22,7 +22,7 @@ public class BadNameCheck extends CheckBehavior{
 
     }
 
-    public static String check(ClassNode node){
+    public String check(ClassNode node){
         //check class name
         String className = getObjectType(node.name).getClassName();
         if(!names.contains(className)){

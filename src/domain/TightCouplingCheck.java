@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 
 import static org.objectweb.asm.Type.*;
 
-public class TightCouplingCheck extends CheckBehavior{
+public class TightCouplingCheck implements CheckBehavior{
     private static final String packageName = "tests";
     private static final String prefix = "L" + packageName + "/";
     private static final int prelength = packageName.length() + 1;
 
-    public static String check(ClassNode node){
+    public String check(ClassNode node){
         String className = getObjectType(node.name).getClassName();
         System.out.println();
         System.out.println("For class " + className + " : " );
